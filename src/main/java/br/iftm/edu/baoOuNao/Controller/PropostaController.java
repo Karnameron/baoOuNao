@@ -21,27 +21,21 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/propostas")
 public class PropostaController {
-
-
     @Autowired
     private PropostaRepository propostaRepository;
-
     @Autowired
     private CadastroPropostaService cadastroPropostaService;
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void adicionar(@RequestBody Proposta proposta){
         cadastroPropostaService.salvar(proposta);
 
     }
-
     @DeleteMapping("/{propostaId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long propostaId){
         cadastroPropostaService.deletar(propostaId);
     }
-
     @PutMapping("/{propostaId}")
     public ResponseEntity<Proposta> atualizar(@PathVariable Long propostaId, @RequestBody Usuario usuario){
         Optional<Proposta> propostaAtual = propostaRepository.findById(propostaId);
@@ -52,7 +46,6 @@ public class PropostaController {
         }
         return ResponseEntity.notFound().build();
     }
-
     @PatchMapping("/{propostaId}")
     public ResponseEntity<?> atualizarParcial(@PathVariable Long propostaId, @RequestBody Map<String, Object> campos) {
         Optional<Proposta> propostaAtual = propostaRepository.findById(propostaId);

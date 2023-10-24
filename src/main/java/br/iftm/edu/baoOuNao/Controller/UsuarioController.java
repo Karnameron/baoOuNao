@@ -22,18 +22,15 @@ import java.util.Optional;
 @RequestMapping("/usuarios")
 public class
 UsuarioController {
-
     @Autowired
     private CadastroUsuarioService cadastroUsuarioService;
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-
     @GetMapping
     public List<Usuario> buscar(){
         return usuarioRepository.findAll();
     }
-
 
     @GetMapping("/{usuarioId}")
     public Usuario buscarPorId(@PathVariable Long usuarioId){
@@ -42,7 +39,6 @@ UsuarioController {
                         -> new UsuarioNaoEncontradoException
                         ("Usuário não encontrado"));
     }
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Usuario adicionar(@RequestBody Usuario usuario){
