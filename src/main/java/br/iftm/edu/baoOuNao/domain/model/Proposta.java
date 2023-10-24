@@ -1,4 +1,4 @@
-package br.iftm.edu.baoOuNao.Model;
+package br.iftm.edu.baoOuNao.domain.model;
 
 import jakarta.persistence.*;
 import lombok.Data;

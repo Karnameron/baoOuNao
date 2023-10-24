@@ -1,4 +1,4 @@
-package br.iftm.edu.baoOuNao.Model;
+package br.iftm.edu.baoOuNao.domain.model;
 
 
 import jakarta.persistence.Entity;
@@ -9,12 +9,9 @@ import lombok.Data;
 
 @Data
 @Entity
-
 public class Usuario {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
     private String nome;
     private String sobrenome;

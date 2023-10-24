@@ -1,7 +1,7 @@
 package br.iftm.edu.baoOuNao.Service;
 
 import br.iftm.edu.baoOuNao.Exception.Geral.EntidadeNaoEncontradaException;
-import br.iftm.edu.baoOuNao.Model.Proposta;
+import br.iftm.edu.baoOuNao.domain.model.Proposta;
 import br.iftm.edu.baoOuNao.Repository.PropostaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;

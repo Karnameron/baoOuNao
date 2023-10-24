@@ -1,8 +1,8 @@
 package br.iftm.edu.baoOuNao.Controller;
 
 import br.iftm.edu.baoOuNao.Exception.Usuario.UsuarioNaoEncontradoException;
-import br.iftm.edu.baoOuNao.Model.Proposta;
-import br.iftm.edu.baoOuNao.Model.Usuario;
+import br.iftm.edu.baoOuNao.domain.model.Proposta;
+import br.iftm.edu.baoOuNao.domain.model.Usuario;
 import br.iftm.edu.baoOuNao.Repository.PropostaRepository;
 import br.iftm.edu.baoOuNao.Service.CadastroPropostaService;
 import com.fasterxml.jackson.databind.ObjectMapper;

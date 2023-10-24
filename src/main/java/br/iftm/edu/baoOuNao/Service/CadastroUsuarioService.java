@@ -3,7 +3,7 @@ package br.iftm.edu.baoOuNao.Service;
 
 import br.iftm.edu.baoOuNao.Exception.Geral.EntidadeEmUsoException;
 import br.iftm.edu.baoOuNao.Exception.Geral.EntidadeNaoEncontradaException;
-import br.iftm.edu.baoOuNao.Model.Usuario;
+import br.iftm.edu.baoOuNao.domain.model.Usuario;
 import br.iftm.edu.baoOuNao.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
