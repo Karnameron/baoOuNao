@@ -39,8 +39,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         var authorization = request.getHeader("Authorization");
         if(authorization != null){
             return authorization.replace("Bearer ","");
-        }else{
-            throw new RuntimeException("Token JWT não enviado!");
         }
+        return null;
     }
 }
