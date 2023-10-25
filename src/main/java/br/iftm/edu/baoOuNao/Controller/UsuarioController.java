@@ -1,11 +1,14 @@
 package br.iftm.edu.baoOuNao.Controller;
 
 
-import br.iftm.edu.baoOuNao.Exception.Usuario.UsuarioNaoEncontradoException;
+import br.iftm.edu.baoOuNao.api.dto.usuario.UserCadastroDto;
+import br.iftm.edu.baoOuNao.api.dto.usuario.UserConsultaDto;
+import br.iftm.edu.baoOuNao.api.mapper.UserMapper;
 import br.iftm.edu.baoOuNao.domain.model.Usuario;
 import br.iftm.edu.baoOuNao.Repository.UsuarioRepository;
 import br.iftm.edu.baoOuNao.Service.CadastroUsuarioService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,22 +29,25 @@ UsuarioController {
     private CadastroUsuarioService cadastroUsuarioService;
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private UserMapper userMapper;
 
     @GetMapping
-    public List<Usuario> buscar(){
-        return usuarioRepository.findAll();
+    public List<UserConsultaDto> buscar(){
+
+        var usuarios =  usuarioRepository.findAll();
+        return userMapper.toCollectionModel(usuarios);
     }
 
     @GetMapping("/{usuarioId}")
-    public Usuario buscarPorId(@PathVariable Long usuarioId){
-        return usuarioRepository.findById(usuarioId)
-                .orElseThrow(()
-                        -> new UsuarioNaoEncontradoException
-                        ("Usuário não encontrado"));
+    public UserConsultaDto buscarPorId(@PathVariable Long usuarioId){
+        var usuario = usuarioRepository.getReferenceById(usuarioId);
+        return userMapper.toModelCadastro(usuario);
     }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Usuario adicionar(@RequestBody Usuario usuario){
+    public Usuario adicionar(@RequestBody @Valid UserCadastroDto inputUsuario){
+        var usuario = userMapper.toEntityCadastro(inputUsuario);
         return cadastroUsuarioService.salvar(usuario);
     }
 
@@ -52,10 +58,10 @@ UsuarioController {
     }
 
     @PutMapping("/{usuarioId}")
-    public ResponseEntity<Usuario> atualizar(@PathVariable Long usuarioId,@RequestBody Usuario usuario){
+    public ResponseEntity<Usuario> atualizar(@PathVariable Long usuarioId,@RequestBody @Valid UserCadastroDto usuario){
         Optional<Usuario> usuarioAtual = usuarioRepository.findById(usuarioId);
         if(usuarioAtual.isPresent()){
-            BeanUtils.copyProperties(usuario, usuarioAtual.get(),"id");
+            BeanUtils.copyProperties(userMapper.toEntityCadastro(usuario), usuarioAtual.get(),"id");
             Usuario usuarioSalvo = cadastroUsuarioService.salvar(usuarioAtual.get());
             return ResponseEntity.ok(usuarioSalvo);
         }

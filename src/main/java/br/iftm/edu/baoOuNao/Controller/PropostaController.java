@@ -1,11 +1,14 @@
 package br.iftm.edu.baoOuNao.Controller;
 
 import br.iftm.edu.baoOuNao.Exception.Usuario.UsuarioNaoEncontradoException;
+import br.iftm.edu.baoOuNao.api.dto.proposta.PropostaCadastroDto;
+import br.iftm.edu.baoOuNao.api.dto.proposta.PropostaConsultaDto;
+import br.iftm.edu.baoOuNao.api.mapper.PropostaMapper;
 import br.iftm.edu.baoOuNao.domain.model.Proposta;
-import br.iftm.edu.baoOuNao.domain.model.Usuario;
 import br.iftm.edu.baoOuNao.Repository.PropostaRepository;
 import br.iftm.edu.baoOuNao.Service.CadastroPropostaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,22 +28,28 @@ public class PropostaController {
     private PropostaRepository propostaRepository;
     @Autowired
     private CadastroPropostaService cadastroPropostaService;
+
+    @Autowired
+    private PropostaMapper propostaMapper;
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void adicionar(@RequestBody Proposta proposta){
-        cadastroPropostaService.salvar(proposta);
-
+    public void adicionar(@RequestBody @Valid PropostaCadastroDto proposta){
+        var entityProposta = propostaMapper.toEntity(proposta);
+        cadastroPropostaService.salvar(entityProposta);
     }
+
     @DeleteMapping("/{propostaId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long propostaId){
         cadastroPropostaService.deletar(propostaId);
     }
+
     @PutMapping("/{propostaId}")
-    public ResponseEntity<Proposta> atualizar(@PathVariable Long propostaId, @RequestBody Usuario usuario){
+    public ResponseEntity<Proposta> atualizar(@PathVariable Long propostaId, @RequestBody @Valid PropostaCadastroDto usuario){
         Optional<Proposta> propostaAtual = propostaRepository.findById(propostaId);
         if(propostaAtual.isPresent()){
-            BeanUtils.copyProperties(usuario, propostaAtual.get(),"id");
+            BeanUtils.copyProperties(propostaMapper.toEntity(usuario), propostaAtual.get(),"id");
             Proposta propostaSalva = cadastroPropostaService.salvar(propostaAtual.get());
             return ResponseEntity.ok(propostaSalva);
         }
@@ -61,7 +70,7 @@ public class PropostaController {
         ObjectMapper objectMapper = new ObjectMapper();
         Proposta propostaOrigem = objectMapper.convertValue(dadosOrigem, Proposta.class);
         dadosOrigem.forEach((nomePropriedade, valorPropriedade)-> {
-            Field field = ReflectionUtils.findField(Usuario.class, nomePropriedade);
+            Field field = ReflectionUtils.findField(Proposta.class, nomePropriedade);
 
             field.setAccessible(true);
             Object novoValor = ReflectionUtils.getField(field, propostaOrigem);
@@ -70,16 +79,19 @@ public class PropostaController {
     }
 
     @GetMapping
-    public List<Proposta> buscar(){
-        return propostaRepository.findAll();
+    public List<PropostaConsultaDto> buscar(){
+        var propostas = propostaMapper.toCollectionModel(propostaRepository.findAll());
+        return propostas;
     }
 
     @GetMapping("/{propostaId}")
-    public Proposta buscarPorId(@PathVariable Long propostaId){
-        return propostaRepository.findById(propostaId)
-                .orElseThrow(()
-                        -> new UsuarioNaoEncontradoException
-                        ("Proposta não encontrada"));
+    public PropostaConsultaDto buscarPorId(@PathVariable Long propostaId){
+        var proposta = propostaRepository.findById(propostaId);
+        if(proposta.isPresent()){
+            return propostaMapper.toModelConsulta(propostaRepository.getReferenceById(propostaId));
+        }else {
+            throw new UsuarioNaoEncontradoException("Proposta Não encontrada!");
+        }
     }
 
 

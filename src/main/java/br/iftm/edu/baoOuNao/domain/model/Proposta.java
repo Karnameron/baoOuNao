@@ -17,6 +17,7 @@ public class Proposta {
     private String titulo;
     @NotNull
     private String descricao;
+    @Enumerated(EnumType.STRING)
     private Categoria categoria;
     private int qtdlikes;
     @OneToOne
