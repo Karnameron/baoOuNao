@@ -4,7 +4,7 @@ package br.iftm.edu.baoOuNao.Controller;
 import br.iftm.edu.baoOuNao.api.dto.usuario.UserCadastroDto;
 import br.iftm.edu.baoOuNao.api.dto.usuario.UserConsultaDto;
 import br.iftm.edu.baoOuNao.api.mapper.UserMapper;
-import br.iftm.edu.baoOuNao.domain.model.Usuario;
+import br.iftm.edu.baoOuNao.domain.model.usuario.Usuario;
 import br.iftm.edu.baoOuNao.Repository.UsuarioRepository;
 import br.iftm.edu.baoOuNao.Service.CadastroUsuarioService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -59,35 +59,11 @@ UsuarioController {
 
     @PutMapping("/{usuarioId}")
     public ResponseEntity<Usuario> atualizar(@PathVariable Long usuarioId,@RequestBody @Valid UserCadastroDto usuario){
-        Optional<Usuario> usuarioAtual = usuarioRepository.findById(usuarioId);
-        if(usuarioAtual.isPresent()){
-            BeanUtils.copyProperties(userMapper.toEntityCadastro(usuario), usuarioAtual.get(),"id");
-            Usuario usuarioSalvo = cadastroUsuarioService.salvar(usuarioAtual.get());
-            return ResponseEntity.ok(usuarioSalvo);
-        }
-        return ResponseEntity.notFound().build();
+       return cadastroUsuarioService.atualizar(usuarioId,usuario);
     }
 
     @PatchMapping("/{usuarioId}")
     public ResponseEntity<?> atualizarParcial(@PathVariable Long usuarioId, @RequestBody Map<String, Object> campos) {
-        Optional<Usuario> usuarioAtual = usuarioRepository.findById(usuarioId);
-        if (usuarioAtual.isPresent()) {
-            merge(campos, usuarioAtual.get());
-            Usuario usuarioSalvo = cadastroUsuarioService.salvar(usuarioAtual.get());
-            return ResponseEntity.ok(usuarioSalvo);
-        }
-        return ResponseEntity.notFound().build();
-    }
-
-    private void merge(Map<String, Object> dadosOrigem, Usuario usuarioDestino) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Usuario usuarioOrigem = objectMapper.convertValue(dadosOrigem, Usuario.class);
-        dadosOrigem.forEach((nomePropriedade, valorPropriedade)-> {
-            Field field = ReflectionUtils.findField(Usuario.class, nomePropriedade);
-
-            field.setAccessible(true);
-            Object novoValor = ReflectionUtils.getField(field, usuarioOrigem);
-            ReflectionUtils.setField(field, usuarioDestino, novoValor);
-        });
+       return cadastroUsuarioService.atualizarParcial(usuarioId,campos);
     }
 }

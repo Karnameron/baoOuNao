@@ -15,6 +15,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static br.iftm.edu.baoOuNao.domain.model.usuario.Permission.*;
+import static br.iftm.edu.baoOuNao.domain.model.usuario.Role.*;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfigurations {
@@ -25,11 +28,24 @@ public class SecurityConfigurations {
         return http.csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
-                    req.requestMatchers(HttpMethod.POST, "/login").permitAll();
-                    req.anyRequest().authenticated();
+
+                    req.requestMatchers("/propostas/**").hasAnyRole(ADMINISTRATOR.name(), MODERATOR.name(), USER.name())
+                    .requestMatchers(HttpMethod.GET,"/propostas/**").hasAnyAuthority(ADMIN_READ.name(),MODERATOR_READ.name(), USER_READ.name())
+                            .requestMatchers(HttpMethod.POST,"/propostas/**").hasAnyAuthority(ADMIN_CREATE_PROPOSAL.name(),MODERATOR_CREATE_PROPOSAL.name(), USER_CREATE_PROPOSAL.name())
+                            .requestMatchers(HttpMethod.PUT,"/propostas/**").hasAnyAuthority(ADMIN_UPDATE.name(),MODERATOR_UPDATE.name(), USER_UPDATE.name())
+                            .requestMatchers(HttpMethod.DELETE,"/propostas/**").hasAnyAuthority(ADMIN_DELETE.name(),MODERATOR_DELETE.name(), USER_DELETE.name())
+                            .requestMatchers(HttpMethod.PATCH,"propostas/moderar/**").hasAuthority(MODERATOR_REVIEW.name())
+                            .requestMatchers("/usuarios/**").hasRole(ADMINISTRATOR.name())
+                            .requestMatchers(HttpMethod.GET,"/usuarios/**").hasAuthority(ADMIN_READ.name())
+                            .requestMatchers(HttpMethod.POST,"/usuarios/**").hasAuthority(ADMIN_CREATE_USER.name())
+                            .requestMatchers(HttpMethod.PUT,"/usuarios/**").hasAuthority(ADMIN_UPDATE.name())
+                            .requestMatchers(HttpMethod.DELETE,"/usuarios/**").hasAuthority(ADMIN_DELETE.name())
+                    .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                    .anyRequest().authenticated();
                 })
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
+
     }
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{

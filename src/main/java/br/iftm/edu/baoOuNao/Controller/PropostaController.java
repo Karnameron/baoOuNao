@@ -4,7 +4,7 @@ import br.iftm.edu.baoOuNao.Exception.Usuario.UsuarioNaoEncontradoException;
 import br.iftm.edu.baoOuNao.api.dto.proposta.PropostaCadastroDto;
 import br.iftm.edu.baoOuNao.api.dto.proposta.PropostaConsultaDto;
 import br.iftm.edu.baoOuNao.api.mapper.PropostaMapper;
-import br.iftm.edu.baoOuNao.domain.model.Proposta;
+import br.iftm.edu.baoOuNao.domain.model.proposta.Proposta;
 import br.iftm.edu.baoOuNao.Repository.PropostaRepository;
 import br.iftm.edu.baoOuNao.Service.CadastroPropostaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,37 +46,14 @@ public class PropostaController {
     }
 
     @PutMapping("/{propostaId}")
-    public ResponseEntity<Proposta> atualizar(@PathVariable Long propostaId, @RequestBody @Valid PropostaCadastroDto usuario){
-        Optional<Proposta> propostaAtual = propostaRepository.findById(propostaId);
-        if(propostaAtual.isPresent()){
-            BeanUtils.copyProperties(propostaMapper.toEntity(usuario), propostaAtual.get(),"id");
-            Proposta propostaSalva = cadastroPropostaService.salvar(propostaAtual.get());
-            return ResponseEntity.ok(propostaSalva);
-        }
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<Proposta> atualizar(@PathVariable Long propostaId, @RequestBody @Valid PropostaCadastroDto proposta){
+        return cadastroPropostaService.atualizar(propostaId,proposta);
     }
     @PatchMapping("/{propostaId}")
     public ResponseEntity<?> atualizarParcial(@PathVariable Long propostaId, @RequestBody Map<String, Object> campos) {
-        Optional<Proposta> propostaAtual = propostaRepository.findById(propostaId);
-        if (propostaAtual.isPresent()) {
-            merge(campos, propostaAtual.get());
-            Proposta propostaSalva = cadastroPropostaService.salvar(propostaAtual.get());
-            return ResponseEntity.ok(propostaSalva);
-        }
-        return ResponseEntity.notFound().build();
+        return cadastroPropostaService.atualizarParcial(propostaId,campos);
     }
 
-    private void merge(Map<String, Object> dadosOrigem, Proposta propostaDestino) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Proposta propostaOrigem = objectMapper.convertValue(dadosOrigem, Proposta.class);
-        dadosOrigem.forEach((nomePropriedade, valorPropriedade)-> {
-            Field field = ReflectionUtils.findField(Proposta.class, nomePropriedade);
-
-            field.setAccessible(true);
-            Object novoValor = ReflectionUtils.getField(field, propostaOrigem);
-            ReflectionUtils.setField(field, propostaDestino, novoValor);
-        });
-    }
 
     @GetMapping
     public List<PropostaConsultaDto> buscar(){
@@ -92,6 +69,8 @@ public class PropostaController {
         }else {
             throw new UsuarioNaoEncontradoException("Proposta Não encontrada!");
         }
+
+
     }
 
 

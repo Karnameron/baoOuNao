@@ -2,7 +2,7 @@ package br.iftm.edu.baoOuNao.api.mapper;
 
 import br.iftm.edu.baoOuNao.api.dto.proposta.PropostaCadastroDto;
 import br.iftm.edu.baoOuNao.api.dto.proposta.PropostaConsultaDto;
-import br.iftm.edu.baoOuNao.domain.model.Proposta;
+import br.iftm.edu.baoOuNao.domain.model.proposta.Proposta;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;

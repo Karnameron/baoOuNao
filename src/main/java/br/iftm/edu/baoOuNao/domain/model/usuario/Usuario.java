@@ -1,20 +1,17 @@
-package br.iftm.edu.baoOuNao.domain.model;
+package br.iftm.edu.baoOuNao.domain.model.usuario;
 
 
+import br.iftm.edu.baoOuNao.domain.model.usuario.Role;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -31,10 +28,12 @@ public class Usuario implements UserDetails {
     private boolean ativo;
     private String login;
     private String senha;
-
+    private Role role;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return role.getAuthorities();
+        //List.of(new SimpleGrantedAuthority("ROLE_USER"));//
+
     }
 
     @Override
