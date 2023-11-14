@@ -2,8 +2,7 @@ package br.iftm.edu.baoOuNao.Controller;
 
 import br.iftm.edu.baoOuNao.Service.TokenService;
 import br.iftm.edu.baoOuNao.api.dto.autenticacao.UserLoginDto;
-import br.iftm.edu.baoOuNao.api.mapper.UserMapper;
-import br.iftm.edu.baoOuNao.domain.model.Usuario;
+import br.iftm.edu.baoOuNao.domain.model.usuario.Usuario;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;

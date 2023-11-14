@@ -5,4 +5,5 @@ import lombok.Data;
 @Data
 public class TokenJwtDto {
     private String token;
+
 }

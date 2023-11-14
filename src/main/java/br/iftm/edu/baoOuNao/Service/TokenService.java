@@ -1,6 +1,6 @@
 package br.iftm.edu.baoOuNao.Service;
 
-import br.iftm.edu.baoOuNao.domain.model.Usuario;
+import br.iftm.edu.baoOuNao.domain.model.usuario.Usuario;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
