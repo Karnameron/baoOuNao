@@ -3,6 +3,7 @@ package br.iftm.edu.baoOuNao.Controller;
 import br.iftm.edu.baoOuNao.Exception.Usuario.UsuarioNaoEncontradoException;
 import br.iftm.edu.baoOuNao.api.dto.proposta.PropostaCadastroDto;
 import br.iftm.edu.baoOuNao.api.dto.proposta.PropostaConsultaDto;
+import br.iftm.edu.baoOuNao.api.dto.proposta.PropostaFeedbackDto;
 import br.iftm.edu.baoOuNao.api.mapper.PropostaMapper;
 import br.iftm.edu.baoOuNao.domain.model.proposta.Proposta;
 import br.iftm.edu.baoOuNao.Repository.PropostaRepository;
@@ -34,9 +35,8 @@ public class PropostaController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void adicionar(@RequestBody @Valid PropostaCadastroDto proposta){
-        var entityProposta = propostaMapper.toEntity(proposta);
-        cadastroPropostaService.salvar(entityProposta);
+    public void adicionar(@RequestBody @Valid Proposta proposta){
+        cadastroPropostaService.salvar(proposta);
     }
 
     @DeleteMapping("/{propostaId}")
@@ -69,10 +69,17 @@ public class PropostaController {
         }else {
             throw new UsuarioNaoEncontradoException("Proposta Não encontrada!");
         }
-
-
     }
 
+    @PatchMapping("/moderar/{propostaId}")
+    public PropostaFeedbackDto moderar(@PathVariable long propostaId, @RequestBody Map<String, Object> campos){
+        if(campos.containsKey("situacao") && campos.containsKey("feedback")){
+            var campo = cadastroPropostaService.moderar(propostaId,campos).getBody();
+            return propostaMapper.toFeedback(campo);
+        }else{
+            throw new RuntimeException("Campo situação não encontrado!");
+        }
+    }
 
 
 

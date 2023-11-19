@@ -1,5 +1,6 @@
 package br.iftm.edu.baoOuNao.api.dto.usuario;
 
+import br.iftm.edu.baoOuNao.domain.model.usuario.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -20,10 +21,11 @@ public class UserCadastroDto {
     private String email;
     @NotNull
     private int limiteDeLike; // Limite 3
-    @NotNull
     private boolean ativo;
     @NotBlank
     private String login;
     @NotBlank
     private String senha;
+    @NotNull
+    private Role role;
 }

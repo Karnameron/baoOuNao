@@ -6,6 +6,7 @@ import br.iftm.edu.baoOuNao.api.mapper.PropostaMapper;
 import br.iftm.edu.baoOuNao.domain.model.proposta.Proposta;
 import br.iftm.edu.baoOuNao.Repository.PropostaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.coyote.Response;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -27,7 +28,15 @@ public class CadastroPropostaService {
     private PropostaMapper propostaMapper;
 
     public Proposta salvar(Proposta proposta){
-        return propostaRepository.save(proposta);
+        var usuario = proposta.getUsuario();
+        var categoria = proposta.getCategoria();
+        var contador = propostaRepository.countPropostaByUsuarioAndCategoria(usuario,categoria);
+        System.out.println(contador);
+        if(contador >= 3){
+            throw new RuntimeException("Você passou do limite de três propostas por categoria!");
+        }else{
+            return propostaRepository.save(proposta);
+        }
     }
 
 
@@ -47,6 +56,17 @@ public class CadastroPropostaService {
             return ResponseEntity.ok(propostaSalva);
         }
         return ResponseEntity.notFound().build();
+    }
+
+    public ResponseEntity<Proposta> moderar(Long propostaId, Map<String,Object> campos){
+        Optional<Proposta> propostaAtual = propostaRepository.findById(propostaId);
+        if(propostaAtual.isPresent()){
+            merge(campos,propostaAtual.get());
+            Proposta propostaSalva = salvar(propostaAtual.get());
+            return ResponseEntity.ok(propostaSalva);
+        }else{
+            return ResponseEntity.notFound().build();
+        }
     }
 
     public ResponseEntity<Proposta> atualizar(Long propostaId, PropostaCadastroDto proposta){
@@ -70,6 +90,8 @@ public class CadastroPropostaService {
             ReflectionUtils.setField(field, propostaDestino, novoValor);
         });
     }
+
+
 
 
 }

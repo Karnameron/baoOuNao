@@ -2,12 +2,11 @@ package br.iftm.edu.baoOuNao.domain.model.usuario;
 
 
 import br.iftm.edu.baoOuNao.domain.model.usuario.Role;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -29,6 +28,12 @@ public class Usuario implements UserDetails {
     private String login;
     private String senha;
     private Role role;
+    @PrePersist
+    public void padrao(){
+        ativo = true;
+        limiteDeLike = 3;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return role.getAuthorities();

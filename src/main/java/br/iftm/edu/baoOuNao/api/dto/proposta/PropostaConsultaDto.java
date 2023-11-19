@@ -17,5 +17,5 @@ public class PropostaConsultaDto {
     @NotNull
     private boolean anonimo;
     @NotNull
-    private UserConsultaDto user_id;
+    private UserConsultaDto usuario;
 }

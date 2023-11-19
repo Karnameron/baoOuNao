@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 public class PropostaFeedbackDto {
-    private Situacao status;
+    private Situacao situacao;
     private String feedback;
 }

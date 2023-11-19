@@ -35,14 +35,14 @@ UsuarioController {
     @GetMapping
     public List<UserConsultaDto> buscar(){
 
-        var usuarios =  usuarioRepository.findAll();
+        var usuarios =  usuarioRepository.findAllByAtivoTrue();
         return userMapper.toCollectionModel(usuarios);
     }
 
     @GetMapping("/{usuarioId}")
     public UserConsultaDto buscarPorId(@PathVariable Long usuarioId){
         var usuario = usuarioRepository.getReferenceById(usuarioId);
-        return userMapper.toModelCadastro(usuario);
+        return userMapper.toModelConsulta(usuario);
     }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
