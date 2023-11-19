@@ -1,5 +1,6 @@
 package br.iftm.edu.baoOuNao.api.mapper;
 
+import br.iftm.edu.baoOuNao.api.dto.autenticacao.TokenJwtDto;
 import br.iftm.edu.baoOuNao.api.dto.usuario.UserConsultaDto;
 import br.iftm.edu.baoOuNao.api.dto.usuario.UserCadastroDto;
 import br.iftm.edu.baoOuNao.api.dto.usuario.UserModeradorReviewDto;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 public class UserMapper {
     private ModelMapper modelMapper;
 
-    public UserConsultaDto toModelCadastro(Usuario usuario) {
+    public UserConsultaDto toModelConsulta(Usuario usuario) {
         return modelMapper.map(usuario, UserConsultaDto.class);
     }
 
@@ -26,12 +27,12 @@ public class UserMapper {
 
     public List<UserConsultaDto> toCollectionModel(List<Usuario> usuarios) {
         return usuarios.stream()
-                .map(this::toModelCadastro)
+                .map(this::toModelConsulta)
                 .collect(Collectors.toList());
     }
 
-    public Usuario toReview(UserModeradorReviewDto userModeradorReviewDto) {
-        return modelMapper.map(userModeradorReviewDto, Usuario.class);
+    public TokenJwtDto toToken(String token){
+        return modelMapper.map(token,TokenJwtDto.class);
     }
 
 
