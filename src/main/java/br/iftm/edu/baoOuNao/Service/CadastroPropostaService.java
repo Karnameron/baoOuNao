@@ -1,6 +1,7 @@
 package br.iftm.edu.baoOuNao.Service;
 
 import br.iftm.edu.baoOuNao.Exception.Geral.EntidadeNaoEncontradaException;
+import br.iftm.edu.baoOuNao.Repository.UsuarioRepository;
 import br.iftm.edu.baoOuNao.api.dto.proposta.PropostaCadastroDto;
 import br.iftm.edu.baoOuNao.api.mapper.PropostaMapper;
 import br.iftm.edu.baoOuNao.domain.model.proposta.Proposta;
@@ -38,7 +39,6 @@ public class CadastroPropostaService {
             return propostaRepository.save(proposta);
         }
     }
-
 
     public void deletar(Long usuarioId){
         try{
@@ -90,8 +90,8 @@ public class CadastroPropostaService {
             ReflectionUtils.setField(field, propostaDestino, novoValor);
         });
     }
-
-
-
-
+    public int contarLikes(Long idProposta){
+        var proposta = propostaRepository.getReferenceById(idProposta);
+        return proposta.getQtdlikes();
+    }
 }

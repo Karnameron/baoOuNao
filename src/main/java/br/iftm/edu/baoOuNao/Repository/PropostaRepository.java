@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PropostaRepository extends JpaRepository<Proposta, Long> {
     int countPropostaByUsuarioAndCategoria(Usuario usuario, Categoria categoria);
-
+    int countPropostaByUsuario(Usuario usuario);
 }
