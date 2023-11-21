@@ -76,4 +76,12 @@ public class CadastroUsuarioService {
             ReflectionUtils.setField(field, usuarioDestino, novoValor);
         });
     }
+
+    public int contarPropostas(Long id){
+        var usuario = usuarioRepository.getReferenceById(id);
+        return propostaRepository.countPropostaByUsuario(usuario);
+    }
+
+
+
 }

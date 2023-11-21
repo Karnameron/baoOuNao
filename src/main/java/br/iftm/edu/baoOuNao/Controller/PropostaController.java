@@ -81,6 +81,12 @@ public class PropostaController {
         }
     }
 
+    @GetMapping("/contarlike/{propostaId}")
+    public int contarlikes(@PathVariable Long propostaId)
+    {
+        return cadastroPropostaService.contarLikes(propostaId);
+    }
+
 
 
 

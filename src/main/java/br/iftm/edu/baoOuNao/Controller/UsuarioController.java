@@ -7,19 +7,14 @@ import br.iftm.edu.baoOuNao.api.mapper.UserMapper;
 import br.iftm.edu.baoOuNao.domain.model.usuario.Usuario;
 import br.iftm.edu.baoOuNao.Repository.UsuarioRepository;
 import br.iftm.edu.baoOuNao.Service.CadastroUsuarioService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -66,4 +61,10 @@ UsuarioController {
     public ResponseEntity<?> atualizarParcial(@PathVariable Long usuarioId, @RequestBody Map<String, Object> campos) {
        return cadastroUsuarioService.atualizarParcial(usuarioId,campos);
     }
+
+    @GetMapping("/contar/{usuarioId}")
+    public int contarPropostas(@PathVariable Long usuarioId){
+        return cadastroUsuarioService.contarPropostas(usuarioId);
+    }
+
 }

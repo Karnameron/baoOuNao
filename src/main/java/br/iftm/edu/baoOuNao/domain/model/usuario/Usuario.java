@@ -27,6 +27,7 @@ public class Usuario implements UserDetails {
     private boolean ativo;
     private String login;
     private String senha;
+    @Enumerated(EnumType.STRING)
     private Role role;
     @PrePersist
     public void padrao(){
