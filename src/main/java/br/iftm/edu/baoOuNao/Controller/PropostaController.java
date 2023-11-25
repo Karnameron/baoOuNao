@@ -5,6 +5,7 @@ import br.iftm.edu.baoOuNao.api.dto.proposta.PropostaCadastroDto;
 import br.iftm.edu.baoOuNao.api.dto.proposta.PropostaConsultaDto;
 import br.iftm.edu.baoOuNao.api.dto.proposta.PropostaFeedbackDto;
 import br.iftm.edu.baoOuNao.api.mapper.PropostaMapper;
+import br.iftm.edu.baoOuNao.domain.model.proposta.Categoria;
 import br.iftm.edu.baoOuNao.domain.model.proposta.Proposta;
 import br.iftm.edu.baoOuNao.Repository.PropostaRepository;
 import br.iftm.edu.baoOuNao.Service.CadastroPropostaService;
@@ -80,7 +81,11 @@ public class PropostaController {
             throw new RuntimeException("Campo situação não encontrado!");
         }
     }
-
+@PostMapping("/categoria")
+public List<PropostaConsultaDto> buscarPorCategoria(@RequestBody String categoria){
+        var categoriaEnum = Enum.valueOf(Categoria.class,categoria);
+        return propostaMapper.toCollectionModel(propostaRepository.findAllByCategoria(categoriaEnum));
+}
     @GetMapping("/contarlike/{propostaId}")
     public int contarlikes(@PathVariable Long propostaId)
     {

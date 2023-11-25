@@ -4,10 +4,10 @@ import br.iftm.edu.baoOuNao.Exception.Geral.EntidadeNaoEncontradaException;
 import br.iftm.edu.baoOuNao.Repository.UsuarioRepository;
 import br.iftm.edu.baoOuNao.api.dto.proposta.PropostaCadastroDto;
 import br.iftm.edu.baoOuNao.api.mapper.PropostaMapper;
+import br.iftm.edu.baoOuNao.domain.model.proposta.Categoria;
 import br.iftm.edu.baoOuNao.domain.model.proposta.Proposta;
 import br.iftm.edu.baoOuNao.Repository.PropostaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.coyote.Response;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -16,14 +16,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class CadastroPropostaService {
 
     @Autowired
     private PropostaRepository propostaRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @Autowired
     private PropostaMapper propostaMapper;
@@ -93,5 +98,10 @@ public class CadastroPropostaService {
     public int contarLikes(Long idProposta){
         var proposta = propostaRepository.getReferenceById(idProposta);
         return proposta.getQtdlikes();
+    }
+
+    public List<Proposta> buscarTodasPropostasPorUser(Long usuarioId){
+        var usuario = usuarioRepository.getReferenceById(usuarioId);
+        return propostaRepository.findAllByUsuario(usuario);
     }
 }

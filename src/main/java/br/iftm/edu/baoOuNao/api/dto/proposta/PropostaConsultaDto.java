@@ -2,6 +2,7 @@ package br.iftm.edu.baoOuNao.api.dto.proposta;
 
 import br.iftm.edu.baoOuNao.api.dto.usuario.UserConsultaDto;
 import br.iftm.edu.baoOuNao.domain.model.proposta.Categoria;
+import br.iftm.edu.baoOuNao.domain.model.proposta.Situacao;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -16,6 +17,12 @@ public class PropostaConsultaDto {
     private Categoria categoria;
     @NotNull
     private boolean anonimo;
+    //@NotNull
+    //private UserConsultaDto usuario;
     @NotNull
-    private UserConsultaDto usuario;
+    private int qtdLikes;
+    @NotNull
+    private Situacao situacao;
+    @NotBlank
+    private String feedback;
 }
