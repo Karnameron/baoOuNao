@@ -28,6 +28,7 @@ public class AuthenticationController {
     private UserMapper userMapper;
 
     @PostMapping
+    //Ajuste Cors
     @CrossOrigin(origins = "*")
     ResponseEntity efetuarLogin(@RequestBody @Valid UserLoginDto dadosLogin){
         var token = new UsernamePasswordAuthenticationToken(dadosLogin.getLogin(), dadosLogin.getSenha());
