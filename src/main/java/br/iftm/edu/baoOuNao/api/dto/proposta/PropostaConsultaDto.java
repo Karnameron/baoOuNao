@@ -17,8 +17,8 @@ public class PropostaConsultaDto {
     private Categoria categoria;
     @NotNull
     private boolean anonimo;
-    //@NotNull
-    //private UserConsultaDto usuario;
+    @NotNull
+    private UserConsultaDto usuario;
     @NotNull
     private int qtdLikes;
     @NotNull
