@@ -31,7 +31,7 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(req -> {
 
                     req.requestMatchers("/propostas/**").hasAnyRole(ADMINISTRATOR.name(), MODERATOR.name(), USER.name())
-                    .requestMatchers(HttpMethod.GET,"/propostas/**").hasAnyAuthority(ADMIN_READ.name(),MODERATOR_READ.name(), USER_READ.name())
+                            .requestMatchers(HttpMethod.GET,"/propostas/**").hasAnyAuthority(ADMIN_READ.name(),MODERATOR_READ.name(), USER_READ.name())
                             .requestMatchers(HttpMethod.GET,"/propostas/contarlike/**").hasAnyAuthority(ADMIN_READ.name(),MODERATOR_READ.name(), USER_READ.name())
                             .requestMatchers(HttpMethod.POST,"/propostas/categoria/**").hasAnyAuthority(ADMIN_READ.name(),MODERATOR_READ.name(), USER_READ.name())
                             .requestMatchers(HttpMethod.POST,"/propostas/**").hasAnyAuthority(ADMIN_CREATE_PROPOSAL.name(),MODERATOR_CREATE_PROPOSAL.name(), USER_CREATE_PROPOSAL.name())
@@ -44,13 +44,15 @@ public class SecurityConfigurations {
                             .requestMatchers(HttpMethod.PUT,"/usuarios/**").hasAnyAuthority(ADMIN_UPDATE.name(),USER_UPDATE.name(),MODERATOR_UPDATE.name())
                             .requestMatchers(HttpMethod.PATCH,"/usuarios/**").hasAnyAuthority(ADMIN_UPDATE.name(),USER_UPDATE.name(),MODERATOR_UPDATE.name())
                             .requestMatchers(HttpMethod.DELETE,"/usuarios/**").hasAuthority(ADMIN_DELETE.name())
-                    .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                    .anyRequest().authenticated();
+                            .requestMatchers(HttpMethod.POST,"/curtir/**").hasAnyAuthority(ADMIN_CREATE_PROPOSAL.name(),USER_CREATE_PROPOSAL.name(),MODERATOR_CREATE_PROPOSAL.name())
+                            .requestMatchers(HttpMethod.GET,"/curtir/**").hasAnyAuthority(ADMIN_READ.name(),MODERATOR_READ.name(), USER_READ.name())
+                            .requestMatchers(HttpMethod.GET,"/curtir/contar/**").hasAnyAuthority(ADMIN_READ.name(),MODERATOR_READ.name(), USER_READ.name())
+                            .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                            .anyRequest().authenticated();
                 })
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .cors(Customizer.withDefaults())
                 .build();
-
     }
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{
