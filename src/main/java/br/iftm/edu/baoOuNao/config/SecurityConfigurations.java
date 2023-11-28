@@ -33,6 +33,7 @@ public class SecurityConfigurations {
                     req.requestMatchers("/propostas/**").hasAnyRole(ADMINISTRATOR.name(), MODERATOR.name(), USER.name())
                             .requestMatchers(HttpMethod.GET,"/propostas/**").hasAnyAuthority(ADMIN_READ.name(),MODERATOR_READ.name(), USER_READ.name())
                             .requestMatchers(HttpMethod.GET,"/propostas/contarlike/**").hasAnyAuthority(ADMIN_READ.name(),MODERATOR_READ.name(), USER_READ.name())
+                            .requestMatchers(HttpMethod.GET,"/propostas/retornarCategoria/**").hasAnyAuthority(ADMIN_READ.name(),MODERATOR_READ.name(), USER_READ.name())
                             .requestMatchers(HttpMethod.POST,"/propostas/categoria/**").hasAnyAuthority(ADMIN_READ.name(),MODERATOR_READ.name(), USER_READ.name())
                             .requestMatchers(HttpMethod.POST,"/propostas/**").hasAnyAuthority(ADMIN_CREATE_PROPOSAL.name(),MODERATOR_CREATE_PROPOSAL.name(), USER_CREATE_PROPOSAL.name())
                             .requestMatchers(HttpMethod.PUT,"/propostas/**").hasAnyAuthority(ADMIN_UPDATE.name(),MODERATOR_UPDATE.name(), USER_UPDATE.name())
