@@ -19,6 +19,7 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -92,6 +93,10 @@ public List<PropostaConsultaDto> buscarPorCategoria(@RequestBody String categori
         return cadastroPropostaService.contarLikes(propostaId);
     }
 
+    @GetMapping("/retornarCategoria")
+    public List<Categoria> retornarCategoria(){
+        return Arrays.stream(Categoria.values()).toList();
+    }
 
 
 
