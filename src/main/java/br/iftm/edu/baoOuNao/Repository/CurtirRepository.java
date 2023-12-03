@@ -10,5 +10,10 @@ public interface CurtirRepository extends JpaRepository<Curtir,Long> {
     int countByProposta(Proposta proposta);
     int countByUsuario_Id(Long id);
     boolean existsLikeByPropostaAndUsuario(Proposta proposta,Usuario usuario);
+    Curtir getReferenceByUsuarioIdAndPropostaId(Long usuarioId, Long PropostaID);
+
+
+
+    void deleteByUsuarioAndProposta(Usuario usuario, Proposta proposta);
 
 }

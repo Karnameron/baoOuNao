@@ -2,6 +2,7 @@ package br.iftm.edu.baoOuNao.Controller;
 
 import br.iftm.edu.baoOuNao.Repository.CurtirRepository;
 import br.iftm.edu.baoOuNao.Repository.PropostaRepository;
+import br.iftm.edu.baoOuNao.Repository.UsuarioRepository;
 import br.iftm.edu.baoOuNao.Service.CurtirLikeService;
 import br.iftm.edu.baoOuNao.api.dto.like.ConsultaCurtirDTO;
 import br.iftm.edu.baoOuNao.api.mapper.CurtirMapper;
@@ -23,6 +24,8 @@ public class CurtirController {
     @Autowired
     CurtirMapper curtirMapper;
     @Autowired
+    UsuarioRepository usuarioRepository;
+    @Autowired
     PropostaRepository propostaRepository;
     @PostMapping
     public void curtir(@RequestBody Curtir curtir){
@@ -40,16 +43,11 @@ public class CurtirController {
         return curtirLikeService.contarPorProposta(id);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity descurtir(@PathVariable Long id){
-        try{
-            curtirRepository.deleteById(id);
+    @DeleteMapping("/{idUsuario}/{idProposta}")
+    public ResponseEntity descurtir(@PathVariable Long idUsuario, @PathVariable Long idProposta){
+        var idCurtir = curtirRepository.getReferenceByUsuarioIdAndPropostaId(idUsuario,idProposta);
+        curtirRepository.deleteById(idCurtir.getId());
             return ResponseEntity.noContent().build();
 
-        }catch (Exception e){
-            throw new RuntimeException("Erro ao descurtir a proposta!");
-        }
     }
-
-
 }
