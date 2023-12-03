@@ -4,6 +4,6 @@ public enum Situacao {
     RECUSADA,
     APROVADA,
     A_REFAZER,
-    EM_ANALISE
+    ANALISE
 
 }

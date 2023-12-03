@@ -9,7 +9,9 @@ import br.iftm.edu.baoOuNao.domain.model.proposta.Categoria;
 import br.iftm.edu.baoOuNao.domain.model.proposta.Proposta;
 import br.iftm.edu.baoOuNao.Repository.PropostaRepository;
 import br.iftm.edu.baoOuNao.Service.CadastroPropostaService;
+import br.iftm.edu.baoOuNao.domain.model.proposta.Situacao;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,6 +100,10 @@ public List<PropostaConsultaDto> buscarPorCategoria(@RequestBody String categori
         return Arrays.stream(Categoria.values()).toList();
     }
 
-
+    @GetMapping("/situacao")
+    public List<PropostaConsultaDto> buscarPorSituacao(@RequestParam(name = "situacao") String situacao){
+       var situacaoBusca = Situacao.valueOf(Situacao.class,situacao);
+       return propostaMapper.toCollectionModel(propostaRepository.findAllBySituacao(situacaoBusca));
+    };
 
 }
