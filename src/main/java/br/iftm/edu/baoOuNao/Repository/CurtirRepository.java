@@ -8,5 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface CurtirRepository extends JpaRepository<Curtir,Long> {
 
     int countByProposta(Proposta proposta);
+    int countByUsuario_Id(Long id);
     boolean existsLikeByPropostaAndUsuario(Proposta proposta,Usuario usuario);
+
 }

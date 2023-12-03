@@ -13,6 +13,6 @@ public class UserConsultaDto {
     private String tipo;
     private String email;
     private Role role;
-    //private int limiteDeLike; // Limite 3
+    private int limiteDeLike; // Limite 3
     private boolean ativo;
 }
