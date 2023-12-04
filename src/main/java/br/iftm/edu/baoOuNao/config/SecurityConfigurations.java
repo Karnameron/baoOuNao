@@ -49,6 +49,7 @@ public class SecurityConfigurations {
                             .requestMatchers(HttpMethod.POST,"/curtir/**").hasAnyAuthority(ADMIN_CREATE_PROPOSAL.name(),USER_CREATE_PROPOSAL.name(),MODERATOR_CREATE_PROPOSAL.name())
                             .requestMatchers(HttpMethod.GET,"/curtir/**").hasAnyAuthority(ADMIN_READ.name(),MODERATOR_READ.name(), USER_READ.name())
                             .requestMatchers(HttpMethod.GET,"/curtir/contar/**").hasAnyAuthority(ADMIN_READ.name(),MODERATOR_READ.name(), USER_READ.name())
+                            .requestMatchers(HttpMethod.GET,"/curtir/existe/**").hasAnyAuthority(ADMIN_READ.name(),MODERATOR_READ.name(), USER_READ.name())
                             .requestMatchers(HttpMethod.POST, "/login").permitAll()
                             .anyRequest().authenticated();
                 })
