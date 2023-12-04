@@ -50,4 +50,11 @@ public class CurtirController {
             return ResponseEntity.noContent().build();
 
     }
+
+    @GetMapping("/existe/{usuarioId}/{propostaId}")
+    public boolean usuarioCurtiu(@PathVariable Long usuarioId, @PathVariable Long propostaId ){
+        var proposta = propostaRepository.getReferenceById(propostaId);
+        var usuario = usuarioRepository.getReferenceById(usuarioId);
+        return curtirLikeService.usuarioCurtiu(usuario,proposta);
+    }
 }

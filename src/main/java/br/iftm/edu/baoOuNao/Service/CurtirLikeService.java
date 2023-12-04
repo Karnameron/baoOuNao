@@ -50,6 +50,6 @@ public class CurtirLikeService {
     }
 
     public boolean usuarioCurtiu(Usuario usuario, Proposta proposta){
-        return curtirRepository.existsLikeByPropostaAndUsuario(proposta,usuario);
+        return curtirRepository.existsLikeByUsuarioAndProposta(usuario,proposta);
     }
 }
