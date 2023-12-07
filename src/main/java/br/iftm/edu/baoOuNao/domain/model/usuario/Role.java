@@ -15,6 +15,7 @@ public enum Role {
     ADMINISTRATOR(
             Set.of(
              ADMIN_UPDATE,
+             ADMIN_READ,
              ADMIN_DELETE,
              ADMIN_CREATE_PROPOSAL,
              ADMIN_CREATE_USER,
