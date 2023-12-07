@@ -46,9 +46,10 @@ public class SecurityConfigurations {
                             .requestMatchers(HttpMethod.PUT,"/usuarios/**").hasAnyAuthority(ADMIN_UPDATE.name(),USER_UPDATE.name(),MODERATOR_UPDATE.name())
                             .requestMatchers(HttpMethod.PATCH,"/usuarios/**").hasAnyAuthority(ADMIN_UPDATE.name(),USER_UPDATE.name(),MODERATOR_UPDATE.name())
                             .requestMatchers(HttpMethod.DELETE,"/usuarios/**").hasAuthority(ADMIN_DELETE.name())
+                            .requestMatchers("/curtir/**").hasAnyRole(ADMINISTRATOR.name(), MODERATOR.name(), USER.name())
                             .requestMatchers(HttpMethod.POST,"/curtir/**").hasAnyAuthority(ADMIN_CREATE_PROPOSAL.name(),USER_CREATE_PROPOSAL.name(),MODERATOR_CREATE_PROPOSAL.name())
                             .requestMatchers(HttpMethod.GET,"/curtir/**").hasAnyAuthority(ADMIN_READ.name(),MODERATOR_READ.name(), USER_READ.name())
-                            .requestMatchers(HttpMethod.GET,"/curtir/contar/**").hasAnyAuthority(ADMIN_READ.name(),MODERATOR_READ.name(), USER_READ.name())
+                            .requestMatchers(HttpMethod.GET,"/curtir/contar/**").permitAll()
                             .requestMatchers(HttpMethod.GET,"/curtir/existe/**").hasAnyAuthority(ADMIN_READ.name(),MODERATOR_READ.name(), USER_READ.name())
                             .requestMatchers(HttpMethod.POST, "/login").permitAll()
                             .anyRequest().authenticated();
