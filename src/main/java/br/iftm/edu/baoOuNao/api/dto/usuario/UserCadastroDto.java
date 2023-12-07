@@ -10,7 +10,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserCadastroDto {
-
+    @NotNull
+    private Long id;
     @NotBlank
     private String nome;
     @NotBlank

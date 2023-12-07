@@ -10,6 +10,8 @@ import lombok.Data;
 @Data
 public class PropostaConsultaDto {
     @NotNull
+    private Long id;
+    @NotNull
     private String titulo;
     @NotBlank
     private String descricao;

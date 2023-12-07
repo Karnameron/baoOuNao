@@ -35,6 +35,7 @@ public class AuthenticationController {
         var authentication = manager.authenticate(token);
         var tokenJWT = tokenService.gerarToken((Usuario) authentication.getPrincipal());
         var tok= String.valueOf(tokenJWT);
-        return ResponseEntity.ok(tokenJWT);
+        tok = "{ \"token\": \"" + tok + "\" }";
+        return ResponseEntity.ok(tok);
     }
 }
