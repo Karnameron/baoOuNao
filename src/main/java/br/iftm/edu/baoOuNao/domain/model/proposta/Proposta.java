@@ -1,9 +1,7 @@
 package br.iftm.edu.baoOuNao.domain.model.proposta;
 
-import br.iftm.edu.baoOuNao.domain.model.proposta.Categoria;
+
 import br.iftm.edu.baoOuNao.domain.model.usuario.Usuario;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

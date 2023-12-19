@@ -27,13 +27,14 @@ UsuarioController {
     @Autowired
     private UserMapper userMapper;
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public List<UserConsultaDto> buscar(){
 
         var usuarios =  usuarioRepository.findAllByAtivoTrue();
         return userMapper.toCollectionModel(usuarios);
     }
-
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{usuarioId}")
     public UserConsultaDto buscarPorId(@PathVariable Long usuarioId){
         var usuario = usuarioRepository.getReferenceById(usuarioId);
@@ -51,17 +52,19 @@ UsuarioController {
     public void remover(@PathVariable Long usuarioId){
         cadastroUsuarioService.remover(usuarioId);
     }
-
+    @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{usuarioId}")
     public ResponseEntity<Usuario> atualizar(@PathVariable Long usuarioId,@RequestBody @Valid UserCadastroDto usuario){
        return cadastroUsuarioService.atualizar(usuarioId,usuario);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/{usuarioId}")
     public ResponseEntity<?> atualizarParcial(@PathVariable Long usuarioId, @RequestBody Map<String, Object> campos) {
        return cadastroUsuarioService.atualizarParcial(usuarioId,campos);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/contar/{usuarioId}")
     public int contarPropostas(@PathVariable Long usuarioId){
         return cadastroUsuarioService.contarPropostas(usuarioId);

@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserConsultaDto {
-    //private Long id;
+    private Long id;
     private String nome;
     private String sobrenome;
     private String tipo;
