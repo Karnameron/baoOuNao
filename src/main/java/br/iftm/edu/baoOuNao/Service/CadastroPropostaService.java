@@ -57,7 +57,7 @@ public class CadastroPropostaService {
         Optional<Proposta> propostaAtual = propostaRepository.findById(propostaId);
         if (propostaAtual.isPresent()) {
             merge(campos, propostaAtual.get());
-            Proposta propostaSalva = salvar(propostaAtual.get());
+            Proposta propostaSalva = propostaRepository.save(propostaAtual.get());
             return ResponseEntity.ok(propostaSalva);
         }
         return ResponseEntity.notFound().build();
@@ -67,7 +67,7 @@ public class CadastroPropostaService {
         Optional<Proposta> propostaAtual = propostaRepository.findById(propostaId);
         if(propostaAtual.isPresent()){
             merge(campos,propostaAtual.get());
-            Proposta propostaSalva = salvar(propostaAtual.get());
+            Proposta propostaSalva = propostaRepository.save(propostaAtual.get());
             return ResponseEntity.ok(propostaSalva);
         }else{
             return ResponseEntity.notFound().build();
@@ -78,7 +78,7 @@ public class CadastroPropostaService {
         Optional<Proposta> propostaAtual = propostaRepository.findById(propostaId);
         if(propostaAtual.isPresent()){
             BeanUtils.copyProperties(propostaMapper.toEntity(proposta), propostaAtual.get(),"id");
-            Proposta propostaSalva = salvar(propostaAtual.get());
+            Proposta propostaSalva = propostaRepository.save(propostaAtual.get());
             return ResponseEntity.ok(propostaSalva);
         }
         return ResponseEntity.notFound().build();
