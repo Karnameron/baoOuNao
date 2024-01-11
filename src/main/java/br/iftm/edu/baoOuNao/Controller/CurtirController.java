@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
-
 @RestController
 @RequestMapping("/curtir")
 public class CurtirController {
@@ -48,7 +47,7 @@ public class CurtirController {
     }
 
     @DeleteMapping("/{idUsuario}/{idProposta}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity descurtir(@PathVariable Long idUsuario, @PathVariable Long idProposta){
         var idCurtir = curtirRepository.getReferenceByUsuarioIdAndPropostaId(idUsuario,idProposta);
         curtirRepository.deleteById(idCurtir.getId());

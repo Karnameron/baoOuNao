@@ -22,9 +22,7 @@ public enum Permission {
     USER_UPDATE("user:update"),
     USER_DELETE("user:delete"),
     USER_CREATE("user:create"),
-    USER_CREATE_PROPOSAL("moderator:create_proposal")
-
-    ;
+    USER_CREATE_PROPOSAL("moderator:create_proposal");
     @Getter
     private final String permission;
 }

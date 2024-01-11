@@ -22,18 +22,22 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
     public String gerarToken(Usuario usuario){
-        try {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
-            String token = JWT.create()
-                    .withIssuer("baoOuNao")
-                    .withSubject(usuario.getLogin())
-                    .withClaim("id",usuario.getId())
-                    .withClaim("role",usuario.getRole().toString())
-                    .withExpiresAt(dataExpiracao())
-                    .sign(algorithm);
-            return token;
-        } catch (JWTCreationException exception){
-            throw new RuntimeException("Erro ao gerar token JWT",exception);
+        if(!usuario.isAtivo()){
+           throw new RuntimeException("Usuário está bloqueado, por gentileza entrar em contato com o administrador!");
+        }else {
+            try {
+                Algorithm algorithm = Algorithm.HMAC256(secret);
+                String token = JWT.create()
+                        .withIssuer("baoOuNao")
+                        .withSubject(usuario.getLogin())
+                        .withClaim("id",usuario.getId())
+                        .withClaim("role",usuario.getRole().toString())
+                        .withExpiresAt(dataExpiracao())
+                        .sign(algorithm);
+                return token;
+            } catch (JWTCreationException exception){
+                throw new RuntimeException("Erro ao gerar token JWT",exception);
+            }
         }
     }
 
